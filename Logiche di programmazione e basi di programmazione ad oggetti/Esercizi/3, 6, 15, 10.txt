@@ -1,0 +1,4 @@
+3, 6, 15, 10
+
+3 > 6 ? no, quindi maxnumber rimane attuale
+6 > 15? no, quindi maxnumber rimane attuale

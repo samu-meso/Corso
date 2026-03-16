@@ -1,0 +1,41 @@
+Logiche di programmazione e basi di programmazione a oggetti
+Durata: 36 h
+---
+Logiche di programmazione
+Problemi e algoritmi
+Rappresentazione di algoritmi
+Variabili, assegnazioni, calcoli
+Algebra booleana, Operatori logici, Sequenze
+Selezioni e cicli
+Funzioni e procedure
+Scomposizione e metodi
+
+Basi di programmazione a oggetti
+Array e Stringhe
+Algoritmi notevoli
+Gestione delle eccezioni
+Accesso alle periferiche
+Input e Output
+Accesso ai files di testo
+Introduzione alla programmazione ad oggetti (OOP)
+Classi e oggetti
+Incapsulamento
+Eredità, polimorfismo
+Overload, Override
+Introduzione al framework React
+---
+Sviluppo applicazioni e analisi dati con Python
+Durata: 48 h
+Introduzione a Python: versioni e sviluppo del linguaggio
+Tipi di base, intro a dati strutturati. dati strutturati mutabili e non mutabili, liste.
+Strutture di controllo di flusso.
+Esecuzione condizionale, cicli, elenchi ed elaborazione di elenchi, operazioni logiche e bit a bit:
+Classi, oggetti, funzioni, procedure, metodi.
+Allocazione in memoria delle variabili.
+Tuple, set, metodi associati, operazioni insiemistiche, rimozioni duplicati con set
+Dizionari, dizionari innestati, metodi di base dei dizionari
+Conversione in lista, funzione di ordinamento sorted
+Errori e gestione, try-except-finally, errori built-in, esercizi
+Funzioni: a cosa servono, riusabilità ed espressività, passaggio di parametri, valori di ritorno
+Approfondimento programmazione a oggetti, analisi dei 4 pilastri della OOP in Python, Incapsulamento ed ereditarietà a vari livelli.
+Polimorfismo e OOP in Python, interfacce informali, abstract base interfaces e loro uso

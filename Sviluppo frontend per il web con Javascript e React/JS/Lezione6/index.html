@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Esercizio Eventi JS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <h2 id="title">Passaci sopra! (mouseenter)</h2>
+
+    <input type="text" id="textInput" placeholder="Scrivi qualcosa... (input)">
+    <div id="liveText" class="box">Feedback in tempo reale...</div>
+
+    <div id="keyBox" class="box">Premi un tasto... (keydown)</div>
+
+    <button id="counterBtn">Cliccami: 0 (click)</button>
+
+    <select id="colorPicker">
+        <option value="#ffffff">Sfondo Bianco (change)</option>
+        <option value="#ffeb3b">Sfondo Giallo</option>
+        <option value="#81c784">Sfondo Verde</option>
+    </select>
+
+    <!-- Rettangolo colore -->
+    <div id="colorRect">Clicca per cambiare colore!</div>
+
+    <div class="reset-hint">Fai DOPPIO CLICK sulla card per resettare (dblclick)</div>
+</div>
+
+<script src="myjavascript.js"></script>
+
+</body>
+</html>

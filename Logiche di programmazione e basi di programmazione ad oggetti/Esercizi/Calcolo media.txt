@@ -1,0 +1,112 @@
+Calcolo della Media dei Numeri Positivi 
+Descrizione: Scrivi un diagramma di flusso che chieda all'utente di inserire numeri interi. Il programma deve terminare quando l'utente inserisce un numero negativo. Alla fine, calcola e stampa la media dei numeri positivi inseriti.
+
+Start
+
+Definiamo le variabili: int numero, int contatore = 0, float media, int somma = 0;
+
+->Chiediamo all'utente di inserire un numero positivo
+- Se è positivo incrementiamo il contatore e lo aggiungiamo alla somma e gliene chiediamo un altro;
+- Se è negativo gli si chiede di reinserirlo
+
+
+Stop
+
+
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+
+int main()
+{
+    float numero = 0; int contatore = 0; float media = 0; float somma = 0;
+    std::cout<<"Inserisci un numero (-1 interrompi): ";
+    std::cin >> numero;
+    
+    while(numero > 0) {
+        if(numero < 0) {
+            break;
+        }
+        if(numero > 0) {
+            contatore++;
+            somma+=numero;
+            std::cout<<"Inserisci un altro numero (-1 interrompi): ";
+            std::cin >> numero;
+        }
+    }
+    
+    if(contatore > 0) {
+        media = (somma / contatore);
+        std::cout << "Media: "<< media << std::endl;
+    } else {
+        std::cout << "Non sono stati inseriti numeri!" << std::endl;
+    }
+    
+
+    return 0;
+}
+
+
+
+
+-- altra versione
+
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+
+int main()
+{
+    /*
+    Calcolo della Media dei Numeri Positivi 
+    Descrizione: Scrivi un diagramma di flusso che chieda all'utente di inserire numeri interi. 
+    Il programma deve terminare quando l'utente inserisce un numero negativo. 
+    Alla fine, calcola e stampa la media dei numeri positivi inseriti.
+    
+    */
+    int n = 0, contatore = 0;
+    float media = 0, somma = 0;
+    std::cout<<"Inserisci un numero (-1 interrompi):";
+    std::cin >> n;
+    
+     if(n < 0 ) {
+        std::cout << "Numero non valido" << std::endl;
+        std::cout<<"Inserisci un numero (-1 interrompi):";
+        std::cin >> n;
+    }
+    
+    while(n >= 0 ){
+        if (n>=0) {
+            contatore++;
+            somma += n;
+            std::cout<<"Inserisci un numero (-1 interrompi):";
+            std::cin >> n;
+        }
+        if (n == -1) {
+            media = somma / contatore;
+            if (contatore > 0) {
+                std::cout << "Media: " << media << std::endl;
+            };
+        }
+    }
+    
+    
+    
+    
+    
+
+
+    return 0;
+}

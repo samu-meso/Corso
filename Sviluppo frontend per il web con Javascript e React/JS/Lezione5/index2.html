@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Somma paragrafi</title>
+</head>
+
+<body>
+
+<p class="numeri">5</p>
+<p class="numeri">10</p>
+<p class="numeri">20</p>
+
+<button onclick="somma()">Somma paragrafi</button>
+<p></p>
+<div id="result2"></div>
+
+
+<script>
+function somma() {
+    let paragrafi = document.getElementsByClassName("numeri");
+    let totale = 0;
+
+
+    for (let i = 0; i < paragrafi.length; i++) {
+        if (!isNaN(parseInt(paragrafi[i].innerHTML))) {
+            totale += parseInt(paragrafi[i].innerHTML);
+            console.log(paragrafi[i].innerHTML);
+        }
+    }
+
+    document.getElementById("result2").innerHTML = totale;
+}
+</script>
+
+</body>
+</html>

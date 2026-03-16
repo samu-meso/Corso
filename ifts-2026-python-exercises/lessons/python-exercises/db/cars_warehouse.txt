@@ -1,0 +1,33 @@
+brand: Toyota
+model: Yaris
+color: metallic grey
+year: 2017
+accessories: antifog lights, apple car play, rear camera
+km: 110000
+license_plate: DD123DD
+vin: 1234567
+price: 10000
+currency: €
+***
+brand: Opel
+model: corsa
+color: black white
+year: 2020
+accessories: antifog lights, rear camera, level 2 adas
+km: 60000
+license_plate: DD123DA
+vin: 7654321
+price: 10000
+currency: €
+***
+brand: Ferrari
+model: F40
+color: red
+year: 1989
+accessories: coraggio
+km: 5642
+license_plate: AA333AA
+vin: 1234
+price: 100000
+currency: €
+***

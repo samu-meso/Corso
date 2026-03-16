@@ -1,0 +1,3 @@
+averagePrice: 40000.0
+averageAge: 17.333333333333332
+averageKm: 58547.333333333336

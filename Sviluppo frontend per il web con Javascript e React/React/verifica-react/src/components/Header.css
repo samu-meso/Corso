@@ -1,0 +1,83 @@
+.custom-navbar {
+  background-color: #0f172a;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  padding: 0.5rem 1rem;
+}
+
+.custom-brand-title {
+  font-family: 'Inter', sans-serif;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.custom-toggle {
+  border: none;
+  box-shadow: none !important;
+}
+
+.custom-toggle:focus {
+  box-shadow: none !important;
+}
+
+.custom-offcanvas {
+  width: 240px !important;
+  background-color: #111827;
+  color: white;
+}
+
+.custom-offcanvas-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1rem 1rem 0.75rem;
+}
+
+.custom-offcanvas-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.custom-offcanvas-body {
+  padding: 1rem;
+}
+
+.custom-dropdown .dropdown-toggle {
+  width: 100%;
+  background-color: #1e293b;
+  border: none;
+  border-radius: 10px;
+  color: white !important;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  box-shadow: none !important;
+}
+
+.custom-dropdown .dropdown-toggle:hover,
+.custom-dropdown .dropdown-toggle:focus,
+.custom-dropdown .dropdown-toggle:active,
+.custom-dropdown.show .dropdown-toggle {
+  background-color: #334155 !important;
+  color: white !important;
+}
+
+.custom-dropdown .dropdown-menu {
+  width: 100%;
+  margin-top: 0.5rem;
+  background-color: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.custom-dropdown .dropdown-item {
+  color: #e5e7eb;
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.custom-dropdown .dropdown-item:hover,
+.custom-dropdown .dropdown-item:focus {
+  background-color: #334155;
+  color: white;
+}

@@ -1,0 +1,16 @@
+.custom-toast {
+  min-width: 300px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 2.5s ease, transform 2.5s ease;
+}
+
+.show-toast {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hide-toast {
+  opacity: 0;
+  transform: translateY(-8px);
+}

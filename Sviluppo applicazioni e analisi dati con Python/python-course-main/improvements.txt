@@ -1,0 +1,13 @@
+- Decouple section content and its grouping: make folders for macro areas, and inside put single theme markdown content
+- Introduction section with the pc architecture and how written programs are handled
+- Algorithms Section
+- Database Section
+- Add a link to the following python keywords: 
+    - built-in -> documentation
+- Change all `returns` in `prints` when connected to it
+- Add in the intro links to the official Python documentation and also unofficial useful links
+- Add section about Python's identity and membership operators
+- Group Comprehensions into a unique paragraph, after having presented all data-structures
+- Add copy section to tuples and sets
+- Change "in this section you will see ... " in " in this section will be presented ..."
+- At the beggining of each setion file, put a TOC of level 2, 3, 4 and so on titles

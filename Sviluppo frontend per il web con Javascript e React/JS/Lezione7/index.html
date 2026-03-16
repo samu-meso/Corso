@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>The XMLHttpRequest Object</h2>
+
+<div id="demo">
+<p>Let AJAX change this text.</p>
+<p>We are working with AJAX! api</p>
+<button type="button" onclick="loadDoc()">Change Content</button>
+<button style="margin-left: 15px;" type="button" onclick="sendContent()">Send content</button>
+</div>
+
+<script>
+function loadDoc() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    if (this.status == 404) {
+      console.error("Error fetching data: " + this.status);
+    }
+    document.getElementById("demo").innerHTML = this.responseText;
+  }
+  xhttp.open("GET", "ajax_.txt");
+  xhttp.setRequestHeader("Authorization", "password authorization request")
+  xhttp.send();
+}
+
+function sendContent() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "ajax_test.asp");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("fname=Henry&lname=Ford");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+/* Stile base per l'interfaccia */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa; /* Grigio chiarissimo di base */
+}
+
+/* Effetto di hover sui prodotti nella lista */
+.list-group-item {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.list-group-item:hover {
+    background-color: #f1f3f5;
+}
+
+/* Rende le card più "morbide" */
+.card {
+    border-radius: 10px;
+    overflow: hidden; /* Assicura che gli header colorati seguano il bordo arrotondato */
+}
+
+/* Classi di utilità per il Javascript */
+/* Nota per gli studenti: usate la classe .nascondi-sezione tramite jQuery per far sparire gli elementi */
+.nascondi-sezione {
+    display: none !important;
+}

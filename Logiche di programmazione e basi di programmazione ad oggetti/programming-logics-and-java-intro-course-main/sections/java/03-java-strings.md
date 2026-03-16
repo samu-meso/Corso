@@ -1,0 +1,389 @@
+# Java Strings
+
+- [String Main Methods](#string-main-methods)
+- [Strings in Memory](#strings-in-memory)
+    - [Integer Caching](#integer-caching)
+- [Comparing Strings](#comparing-strings)
+- [Concatenating Strings](#concatenating-strings)
+    - [The + Operator](#the--operator)
+    - [StringBuilder](#stringbuilder)
+- [Standard Streams](#standard-streams)
+    - [PrintStream Methods](#printstream-methods)
+- [Reading from the Keyboard](#reading-from-the-keyboard)
+- [Wrapper Classes](#wrapper-classes)
+    - [Boxing and Unboxing](#boxing-and-unboxing)
+    - [Converting Strings to Primitive Types](#converting-strings-to-primitive-types)
+    - [Converting Primitive Types to Strings](#converting-primitive-types-to-strings)
+    - [Comparing Wrappers](#comparing-wrappers)
+    - [NullPointerException when Unboxing](#npe-when-unboxing)
+- [Resources](#resources)
+
+
+The `String` class represents character strings. The class `String` includes methods for examining individual characters of the sequence, for comparing strings, for searching strings, for extracting substrings, and for creating a copy of a string with all characters translated to uppercase or to lowercase and so on.
+
+```java
+public static void main(String[] args) {
+    System.out.println("abc".length());
+    System.out.println("abc".toUpperCase());
+    System.out.println("abc".startsWith("d"));
+    System.out.println("abc".indexOf('c'));
+    System.out.println("abc".substring(1,3));
+    System.out.println("abc".equals("ABC"));
+}
+```
+
+We can declare a string in three different ways:
+
+```java
+    public static void main(String[] args) {
+    String a = "hello";
+    String b = new String("world!");
+    String c = """
+            He who becomes the slave of habit,
+            who follows the same routes every day,
+            who never changes pace,
+            who does not risk and change the color of his clothes,
+            who does not speak and does not experience,
+            dies slowly.
+            """;
+}
+```
+
+
+## String main methods
+
+`charAt()` Returns the character at the specified index (position)
+
+`compareTo()` Compares two strings lexicographically
+
+`concat()` Appends a string to the end of another string
+
+`contains()` Checks whether a string contains a sequence of characters
+
+`endsWith()` Checks whether a string ends with the specified character(s)
+
+`isEmpty()` Checks whether a string is empty or not
+
+`length()` Returns the length of a specified string
+
+`replace()` Searches in a string for a specified value, and returns a new string where those values are replaced
+
+`split()` Splits a string into an array of substrings
+
+`startsWith()` Checks whether a string starts with specified characters
+
+`substring()` Returns a new string which is the substring of a specified string
+
+
+## Strings in memory
+
+**Strings are immutable**: their value cannot be changed after they are created.
+
+When created using `String s = "something"` they are stored in a special pool in which the same string is stored only once.
+
+```java
+// memory use
+String first = "Baeldung";
+
+// no actual memory use
+String second = "Baeldung";
+
+// True
+System.out.println(first == second);
+```
+
+When created using the `String s = new String("something")` they are stored in memory (heap) as standard objects. As such, each string occupies its own memory.
+
+```java
+// memory use
+String first = new String("Baeldung");
+
+// memory use
+String second = new String("Baeldung");
+
+// memory use
+String third = "Baeldung";
+
+// False
+System.out.println(first == second);
+
+// False
+System.out.println(first == third);
+```
+
+### Integer caching
+
+A similar mechanism has been implemented for Integers and called **Integer caching**. The most commonly used range of Integer values [-128, 127] are allocated within a *cache area* (inside heap area, some extra memory is allocated named as cache) while the rest of the integer values are allocated in the *heap area*. 
+
+If you create a new object with a value which is already present in *cache*, it will not create another object but a reference to the existing object will be returned. This might lead to apparently wrong behaviours.
+
+```java
+public class IntegerCaching {
+    public static void main(String[] args) {
+        for (int i = -130; i <= 130; i++) {
+            System.out.println(i + " --> " + (Integer.valueOf(i) == Integer.valueOf(i)));
+        }
+    }
+}
+```
+
+```text
+-130 --> false
+-129 --> false
+-128 --> true
+-127 --> true
+...
+126 --> true
+127 --> true
+128 --> false
+129 --> false
+130 --> false
+```
+
+
+## Comparing strings
+
+The **== operator** verifies if two references point to the same object. On the contrary, the **equals() method** verifies if two objects (any object!) have the same internal state.
+
+```java
+public class ComparingStrings {
+    public static void checkStrings(String s1, String s2) {
+        if (s1 == s2) {
+            System.out.println("s1 and s2 point to the same object");
+        } else {
+            System.out.println("s1 and s2 point to different objects");
+        }
+
+        if (s1.equals(s2)) {
+            System.out.println("s1 and s2 have the same content");
+        } else {
+            System.out.println("s1 and s2 have different contents");
+        }
+    }
+    
+    public static void main(String[] args) {
+        checkStrings("Hello World!", "Hello World!");  // same object, same content
+        checkStrings(new String("Hello World!"), new String("Hello World!")); // different objects, same content
+        checkStrings(new String("Hello World!"), new String("Hello Mars!")); // different objects, different content
+    }
+}
+```
+
+
+## Concatenating strings
+
+### The + operator
+
+The `+` can be used to concatenate 2 or more strings. It can also concatenate variables of other types which are automatically converted to the String type before being concatenated.
+
+```java
+public static void main(String[] args) {
+    String s = "This string" + " is made " + "by three substrings";
+    System.out.println("#students = " + 3);
+    System.out.println("PI = " + 3.1415);
+}
+```
+
+### StringBuilder
+
+Being strings immutable, **when two Strings are concatenated using +, the two strings are actually discarded and a new one (containing their concatenation) is instantiated.** This process is **slow** and **memory intensive!**. 
+
+`StringBuilder` provides a better way for concatenating strings.
+
+```java
+public class ConcatenateBenchmark {
+    public static String concatenateSlow(int iterations) {
+        // slow version
+        String s = "";
+        for (int i = 0; i < iterations; i++) {
+            s += 'a';
+        }
+        return s;
+    }
+
+    public static String concatenateFast(int iterations) {
+        // fast version using StringBuilder
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < iterations; i++) {
+            sb.append('a');
+        }
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        long start = System.nanoTime();
+        concatenateSlow(10000);
+        long end = System.nanoTime();
+        System.out.println("Execution time: " + Duration.ofNanos(end - start).toMillis() + "ms");
+    }
+}
+```
+
+
+## Standard streams
+
+Java has 3 streams called `System.in`, `System.out`, and `System.err` which are commonly used to provide input to, and output from Java applications. Most commonly used is probably `System.out` for writing output to the console from console programs (command line applications). They are initialized by the Java runtime, so you don't have to instantiate any streams yourself.
+* `System.in` is an `InputStream` which is typically connected to keyboard input of console programs.
+* `System.out` is a `PrintStream` to which you can write characters. It normally outputs the data you write to it to the console/terminal.
+* `System.err` is a `PrintStream`. It works like `System.out` except it is normally only used to output error texts. 
+
+### PrintStream Methods
+
+- Prints a string:
+    ```java
+    void print(String s)
+    ```
+
+- Prints a string and adds a newline:
+    ```java
+    void println(String s)
+    ```
+
+- Writes a formatted string using the specified format string and arguments:
+    ```java
+    void printf(String format, Object... args)
+    ```
+
+- Returns a formatted string using the specified format string and arguments:
+    ```java
+    String String.format(String format, Object... args)
+    ```
+
+
+## Reading from the keyboard
+
+`Scanner` is a text scanner which can **read from the keyboard and eventually parse primitive types.** It **breaks its input into tokens** using a delimiter pattern, which by default matches whitespace.
+
+```java
+public static void main(String[] args) {
+    /* from stdin */
+    Scanner scanner = new Scanner(System.in);
+    String s = scanner.next();
+    int i = scanner.nextInt();
+    double d = scanner.nextDouble();
+
+    /* from a file */
+    Scanner scannerFile = new Scanner(new File("myNumbers"));
+    while (scannerFile.hasNextLong()) {
+        long aLong = scannerFile.nextLong();
+    }
+}
+```
+
+
+## Wrapper classes
+
+Each primitive type has a class dedicated to it. These classes are known as **wrappers**, and they are **immutable** (just like strings). Wrapper classes can be used in different situations:
+
+* when a variable can be `null` (absence of a value);
+* when you want to use special methods of these classes (e.g., for converting to and from strings).
+* when you need to store values in generic collections (will be considered in the next topics);
+
+The following table lists all primitive types and the corresponding wrapper classes.
+As you can see, Java provides eight wrapper classes: one for each primitive type.
+
+| Primitive | Wrapper   |
+|-----------|-----------|
+| boolean   | Boolean   |
+| byte      | Byte      |
+| char      | Character |
+| int       | Integer   |
+| float     | Float     |
+| double    | Double    |
+| long      | Long      |
+| short     | Short     |
+
+### Boxing and unboxing
+
+**Boxing** is the conversion of primitive types to objects of corresponding wrapper classes. **Unboxing** is the reverse process. The following code illustrates both processes:
+
+```java
+public static void main(String[] args) {
+    int primitive = 100;
+    Integer reference;
+    
+    reference = Integer.valueOf(primitive);         // boxing
+    int anotherPrimitive = reference.intValue();    // unboxing
+}
+
+```
+
+```java
+public static void main(String[] args) {
+    double primitive = 10.8;
+    Double reference;
+    
+    reference = primitive;                          // auto-boxing
+    double anotherPrimitive = reference;            // auto-unboxing
+}
+```
+
+### Converting Strings to Primitive Types
+
+```java
+public static void main(String[] args) {
+    String intStr = "42";
+    int num = Integer.parseInt(intStr);
+
+    String doubleStr = "3.14";
+    double pi = Double.parseDouble(doubleStr);
+
+    String boolStr = "true";
+    boolean flag = Boolean.parseBoolean(boolStr);
+
+    System.out.println("Integer: " + num);
+    System.out.println("Double: " + pi);
+    System.out.println("Boolean: " + flag);
+}
+```
+
+### Converting Primitive Types to Strings
+
+```java
+public static void main(String[] args) {
+    double pi = 3.14;
+    String doubleStr = Double.toString(pi);
+
+    boolean flag = true;
+    String boolStr = Boolean.toString(flag);
+
+    System.out.println("String from int: " + intStr);
+    System.out.println("String from double: " + doubleStr);
+    System.out.println("String from boolean: " + boolStr);
+}
+```
+
+### Comparing wrappers
+
+Just like for any reference type, the operator `==` checks whether two wrapper objects are actually equal, i.e. if they refer to the same object in memory. The method `equals` , on the other hand, checks whether two wrapper objects are meaningfully equal, for example, it checks if two wrappers or strings have the same value.
+
+```java
+public static void main(String[] args) {
+    Long i1 = Long.valueOf("2000");
+    Long i2 = Long.valueOf("2000");
+    System.out.println(i1 == i2);      // false
+    System.out.println(i1.equals(i2)); // true
+}
+```
+
+Do not forget about this feature when working with wrappers. Even though they correspond to primitive types, wrapper objects are reference types!
+
+### NPE when unboxing
+
+There is one possible problem when unboxing. If the wrapper object is `null`, the unboxing throws a`NullPointerException`**.**
+
+```java
+Long longVal = null;
+long primitiveLong = longVal; // It throws an NPE
+```
+
+```java
+Integer n1 = 50;
+Integer n2 = null;
+Integer result = n1 / n2; // It throws an NPE
+```
+
+
+## Resources
+* https://www.baeldung.com/java-string
+* https://www.baeldung.com/java-string-operations

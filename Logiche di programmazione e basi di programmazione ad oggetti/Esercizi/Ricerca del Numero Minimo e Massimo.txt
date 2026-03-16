@@ -1,0 +1,31 @@
+Ricerca del Numero Minimo e Massimo Descrizione: 
+Crea un diagramma di flusso e un programma che chiede all'utente di inserire un elenco di n numeri (con n definito a priori). 
+Il programma deve determinare e stampare il numero minimo e massimo tra quelli inseriti.
+
+
+1. Chiedere all'utente di inserire quanti numeri in modo da sapere la dimensione dell'array.
+   1.1 I numeri non devono essere negativi.
+2. Da una lista di numeri tipo [4, 2, 8, 6] dobbiamo confrontarli e trovare il minimo e il massimo quindi, confrontare: 
+i numeri della lista            0  1  2  3 
+input = 4
+
+4 > 4 false 
+4 < 4 false  max = 4 min = 4
+
+2 > 4 ? false
+2 < 4 ? true min = 2 max = 4
+
+8 > 4 ? true set max = 8
+8 < 4 ? false rimane min = 2
+
+6 > 8 ? false rimane max 8
+6 < 2 ? false rimane min 2
+
+dopo da min e max
+
+
+
+
+
+
+-> Start

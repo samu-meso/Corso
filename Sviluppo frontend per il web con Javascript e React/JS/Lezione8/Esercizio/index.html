@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Esercizio jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <h1 id="titolo-principale">Benvenuto nel Gestore Task</h1>
+
+    <div class="contenitore">
+        <p class="descrizione">Questa è una lista di cose da fare. Usa i bottoni per modificarla!</p>
+        
+        <ul id="lista-oggetti">
+            <li>Imparare i selettori</li>
+            <li class="evidenziato">Capire il DOM</li>
+            <li>Divertirti con jQuery</li>
+        </ul>
+    </div>
+
+    <div id="controlli">
+        <button id="btn-mostra">Mostra Legenda</button>
+        <button id="btn-nascondi">Nascondi Legenda</button>
+        <button id="btn-modifica">Modifica Contenuti</button>
+        <button id="btn-pulisci">Pulisci Lista</button>
+    </div>
+
+    <div id="legenda" style="display:none;">
+        <p><strong>Nota:</strong> Le modifiche appariranno qui sotto.</p>
+    </div>
+
+</body>
+</html>

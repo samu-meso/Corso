@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" 
+          content="width=device-width, initial-scale=1.0">
+    <title>JSON Fetch</title>
+    <style>
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+            font-family: monospace;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>JSON Data</h1>
+    <div id="json-container">
+        <!-- Parsed JSON data will be displayed here -->
+    </div>
+
+    <script>
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'example.json', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let jsonObject = 
+                        JSON.parse(xhr.responseText);
+                displayJSON(jsonObject);
+            }
+        };
+        xhr.send();
+
+        function displayJSON(jsonObject) {
+            let jsonContainer = 
+                    document.getElementById('json-container');
+            let pre = 
+                    document.createElement('pre');
+            pre.textContent = JSON.stringify(jsonObject, null, 2);
+            jsonContainer.appendChild(pre);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard jQuery Avanzata</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+    <div id="main-card">
+        <h1>Dashboard Interattiva</h1>
+        
+        <div class="search-box">
+            <input type="text" id="input-utente" placeholder="Scrivi una nuova nota...">
+            <button id="btn-aggiungi">Aggiungi Nota</button>
+        </div>
+
+        <ul id="lista-note">
+            </ul>
+
+        <hr>
+
+        <div class="sezione-api">
+            <h3>Lista Utenti dal Server</h3>
+            <button id="btn-fetch">Carica Utenti (GET)</button>
+            <div id="risultati-api">
+                <p class="placeholder">I dati degli utenti appariranno qui...</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="sezione-post">
+            <h3>Crea un nuovo Post (POST)</h3>
+            <input type="text" id="post-title" placeholder="Titolo del post">
+            <input type="text" id="post-body" placeholder="Contenuto del post">
+            <button id="btn-invia-post">Invia Dati al Server</button>
+            <div id="feedback-post"></div>
+        </div>
+    </div>
+
+    <div id="footer-info">
+        Passa il mouse qui per i dettagli di sistema.
+    </div>
+
+</body>
+</html>

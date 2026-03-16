@@ -1,0 +1,295 @@
+# Java Arrays
+
+- [Creating an Array](#creating-an-array)
+- [Arrays in Memory](#arrays-in-memory)
+- [Multi-dimensional Arrays](#multi-dimensional-arrays)
+- [Assigning and Accessing Elements](#assigning-and-accessing-elements)
+- [Iterating over an Array](#iterating-over-an-array)
+- [Passing Array to Methods](#passing-arrays-to-methods)
+- [Array Utilities](#array-utilities)
+    - [java.util.Arrays](#javautilarrays)
+    - [System.arraycopy()](#systemarraycopy)
+- [Resources](#resources)
+
+
+In Java, an array is a data structure that can store a fixed-size sequence of elements of the same data type. 
+* **An array is an object**, which means it can be assigned to a variable, passed as a parameter to a method, and returned as a value from a method.
+* **Arrays are zero-indexed**, which means that the first element in an array has an index of 0, the second element has an index of 1, and so on. 
+* **The length of an array is fixed** when it is created and cannot be changed later.
+* **Arrays can store elements of any data type**, including primitive types such as int, double, and boolean, as well as object types such as String and Integer. Arrays can also be multidimensional, meaning that they can have multiple rows and columns.
+
+
+## Creating an array
+
+Declaration and initialization in one statement:
+
+```java
+int[] numbers = {1, 2, 3, 4, 5};
+
+String[] names = {"John", "Mary", "David", "Sarah"};
+```
+
+Declaration and initialization in two statements:
+
+```java
+int[] numbers;
+numbers = {1, 2, 3, 4, 5};
+
+String[] names;
+names = {"John", "Mary", "David", "Sarah"};
+```
+
+Declaration and initialization with default values: 
+
+```java
+int[] numbers = new int[5]; // all zeros
+
+String[] names = new String[4]; // all null values
+```
+
+
+## Arrays in memory
+
+<div align="center">
+    <img src="assets/images/basics-array-example-primitive-types.avif" width="500"/>
+    <img src="assets/images/basics-array-example-object-reference.avif" width="500"/>
+</div>
+<div align="center">
+    <figcaption>
+        <em>Java variables, pointers, structured types and memory.</em>
+        <br>
+        <br>
+    </figcaption>
+</div>
+
+
+## Multi-Dimensional arrays
+
+In Java, you can create multidimensional arrays with two or more dimensions. A two-dimensional array is an array of arrays.
+
+```java
+int[][] matrix;
+```
+
+To initialize the array with values, we use the `new` keyword followed by the type of data the array will hold, enclosed in square brackets, and the number of rows and columns the array will contain. 
+
+```java
+matrix = new int[3][4];
+```
+
+Here's another example of declaring a two-dimensional array of integers filled with initial values:
+
+```java
+int[][] matrix = {{1, 2}, {3, 4}, {5, 6}};
+```
+
+Here's another example of declaring a two-dimensional array of String named `table` with 2 rows and 3 columns.
+
+```java
+String[][] table = new String[2][3];
+table[0][2] = "Mary";
+```
+
+>**NOTE:** rows in multidimensional arrays are separate objects and are not contiguous in memory. As a consequence, switching rows is an extremely fast operation which does not require copies in memory.
+
+![](images/basics-multidimensional-arrays.avif)
+
+<div align="center">
+    <img src="assets/images/basics-multidimensional-arrays.avif" width="500"/>
+</div>
+<div align="center">
+    <figcaption>
+        <em>Multi-dimensional arrays and memory.</em>
+        <br>
+        <br>
+    </figcaption>
+</div>
+
+
+## Assigning and accessing elements
+
+An element of an Array is referred to by its index.
+The index is an integer, and its value is between [0, length of the Array - 1]. For example an Array to hold 5 elements has indices 0, 1, 2, 3, 4.
+
+```java
+import java.util.Arrays;
+
+public static void main(String[] args) {
+    int[] numbers = new int[5];
+    numbers[0] = 42;
+    numbers[1] = 13;
+    numbers[2] = 12;
+    numbers[3] = 7;
+    numbers[4] = 1;
+    
+    System.out.println(Arrays.toString(numbers));
+}
+```
+
+
+## Iterating over an array
+
+You can find the size of the array through the associated attribute `length`. 
+
+>**NOTE:** `length` is an attribute not a method call, so `numbers.length()` doesn't work.
+
+You can iterate over the array in various ways:
+
+```java
+public static void main(String[] args) {
+    int[] numbers = new int[4];
+    
+    int index = 0;
+    while (index < numbers.length) {
+        System.out.println(numbers[index]);
+        index = index + 1;
+    }
+}
+```
+
+or
+
+```java
+public static void main(String[] args) {
+    int[] numbers = new int[4];
+
+    for (index = 0; index < numbers.length; index++) {
+        System.out.println(numbers[index]);
+    }
+}
+```
+
+or
+
+```java
+public static void main(String[] args) {
+    int[] numbers = new int[4];
+
+    for (int number : numbers) {
+        System.out.println(number);
+    }
+}
+```
+
+If the index is pointing outside the array, we get an **ArrayIndexOutOfBoundsException**. 
+
+```java
+public static void main(String[] args) {
+    int[] numbers = new int[4];
+    
+    // ArrayIndexOutOfBoundsException
+    System.out.println(numbers[4]);
+}
+```
+
+The next example is a program that fills an array with user-specified numbers and prints them back.
+
+ ```java
+public static void fillArray() {
+    Scanner reader = new Scanner(System.in);
+    System.out.print("How many numbers? ");
+    int howMany = reader.nextInt();
+
+    int[] numbers = new int[howMany];
+
+    System.out.println("Enter the numbers:");
+    for (int i = 0; i < numbers.length; i++) {
+        numbers[i] = reader.nextInt();
+    }
+
+    System.out.println("Here are the numbers again:");
+    for (int i = 0; i < numbers.length; i++) {
+        System.out.println(numbers[i]);
+    }
+}
+```
+
+
+## Passing arrays to methods
+
+You can use arrays as method parameters just like any other variable. When you use array as a parameter of a method, **the method receives a copy of the reference to the array**.
+
+```java
+public class Main {
+    public static void listElements(int[] integerArray) {
+        for (int n : integerArray) {
+            System.out.printf("%d ", n);
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3};
+        listElements(numbers);
+
+        listElements(new int[]{1, 2, 3});
+    }
+}
+```
+
+>**NOTE:** arrays are objects, so when you change an array inside a method, the changes persist after the execution of the method.
+
+```java
+public class Main {
+    public static void addOne(int[] integerArray) {
+        for (int i = 0; i < integerArray.length; i++) {
+            integerArray[i] = integerArray[i] + 1;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3};
+        addOne(numbers);
+        System.out.println(Arrays.toString(numbers)); //2, 3, 4
+    }
+}
+```
+
+
+## Array Utilities
+
+### java.util.Arrays
+
+`java.util.Arrays` contains various methods for manipulating arrays such as **sorting, searching, filling, printing or being viewed as Collections**
+
+  - `copyOf()` / `copyOfRange()`
+  - `fill()`
+  - `equals()` / `deepEquals()`
+  - `sort()`
+  - `binarySearch()`
+  - `toString()` / `deepToString()`
+  - `asList()`
+
+### System.arraycopy()
+
+`System.arraycopy()` copies an array from the specified source array, beginning at the specified position, to the specified position of the destination array. The number of components copied is equal to the length argument. Its use is advised because of its speed and simplicity!
+
+```java
+public static void main(String[] args) {
+    int[] v1 = new int[8];
+    int[] v2 = new int[8];
+    
+    Arrays.fill(v1, 10);
+    Arrays.fill(v2, 12);
+    
+    // manual array copy
+    for (int i = 0; i < 4; i++) {
+        v2[i + 4] = v1[i];
+    }
+    
+    // system array copy
+    // produces the same result as the manual version
+    // System.arraycopy(v1, 0, v2, 4, 4);
+    
+    System.out.println(Arrays.toString(v1));
+    // 10,10,10,10,10,10,10,10
+    
+    System.out.println(Arrays.toString(v2));
+    // 12,12,12,12,10,10,10,10
+}
+```
+
+
+## Resources 
+* https://www.baeldung.com/java-arrays-guide
+* https://www.baeldung.com/java-util-arrays
