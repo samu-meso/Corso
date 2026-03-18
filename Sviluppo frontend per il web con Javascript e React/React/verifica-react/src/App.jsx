@@ -10,10 +10,13 @@ function App() {
   const { addNotification, removeNotification } = useContext(NotificationContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState('');
 
   const loadProducts = async (controller = new AbortController()) => {
-    setLoading(true)
+    setLoading(true);
     setProducts([]);
+    setErr('');
+
     const loadingId = addNotification(
       'Caricamento',
       'Caricamento prodotti in corso...',
@@ -24,10 +27,10 @@ function App() {
     );
 
     try {
-      // setLoading(true)
       const response = await axios.get(
         "https://dummyjson.com/products",
-        { signal: controller.signal });
+        { signal: controller.signal }
+      );
 
       setProducts(response.data.products);
 
@@ -44,11 +47,17 @@ function App() {
     } catch (error) {
       console.error('Errore fetch prodotti:', error);
 
+      setErr(error.message);
+
       removeNotification(loadingId);
 
       addNotification(
         'Errore',
-        'Errore caricamento prodotti'
+        'Errore caricamento prodotti',
+        {
+          type: 'error',
+          persistent: true
+        }
       );
     } finally {
       setLoading(false);
@@ -64,12 +73,12 @@ function App() {
       controller.abort();
       console.log("Component unmounted");
     };
-  }, []);;
+  }, []);
 
   return (
     <>
       <Header onRefresh={loadProducts} />
-      <Products products={products} pLoading={loading} />
+      <Products products={products} pLoading={loading} error={err} />
       <Notifications />
     </>
   );
