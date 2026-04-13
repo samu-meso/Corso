@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AndroidSampleApp</string>
+    <string name="convert_button_label">Convert in Euro!!!</string>
+    <string name="no_value_string">Non convertibile</string>
+</resources>

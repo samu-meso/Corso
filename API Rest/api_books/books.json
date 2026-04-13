@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "title": "Il Nome della Rosa",
+        "author": "Umberto Eco",
+        "genre": "Mistero",
+        "price": 15.9,
+        "pages": 502
+    },
+    {
+        "id": 2,
+        "title": "Il Signore degli Anelli",
+        "author": "J.R.R. Tolkien",
+        "genre": "Fantasy",
+        "price": 22.5,
+        "pages": 1200
+    },
+    {
+        "id": 3,
+        "title": "1984",
+        "author": "George Orwell",
+        "genre": "Distopico",
+        "price": 12.0,
+        "pages": 350
+    },
+    {
+        "id": 4,
+        "title": "Il Grande Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "genre": "Classico",
+        "price": 10.5,
+        "pages": 180
+    },
+    {
+        "id": 5,
+        "title": "diocane",
+        "author": "Dante Alighieri",
+        "genre": "Classico",
+        "price": 15.5,
+        "pages": 432
+    }
+]
