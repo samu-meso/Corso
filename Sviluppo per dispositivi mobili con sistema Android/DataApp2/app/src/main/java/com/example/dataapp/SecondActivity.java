@@ -18,7 +18,7 @@ public class SecondActivity extends AppCompatActivity {
 
         Persona persona = intent.getParcelableExtra("persona");
 
-        int position = intent.getIntExtra(MainActivity.LIST_POSITION, -1);
+        int position = intent.getIntExtra("posizione", -1);
 
         // Views
         TextView personaTextView = findViewById(R.id.personaTextView);

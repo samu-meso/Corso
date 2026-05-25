@@ -1,0 +1,7 @@
+Data la topologia di rete indicata in figura:
+
+- assegnare indirizzi ip a tutti i dispositivi (router, switch, computers)
+- impostare correttamente il default gateway su computer e switch
+- impostare la tabella di routing sui router per consentire la raggiungibilità tutti a tutti
+- abilitare telnet su tutti gli switch e router con password pippo, enable secret pippo1
+

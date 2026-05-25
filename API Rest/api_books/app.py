@@ -8,12 +8,12 @@ app = Flask(__name__)
 app.register_blueprint(
     book_controller
 )  # serve per registrare il blueprint del controller, in questo modo tutte le rotte definite in book_controller saranno disponibili nell'app
-CORS(app)
+# CORS(app)
 
 
 @app.route("/", methods=["GET"])
 def homepage():
-    return render_template("home.html")  # Flask cerca in templates/
+    return render_template("client.html")  # Flask cerca in templates/
 
 
 if __name__ == "__main__":

@@ -1,0 +1,61 @@
+package com.example.dataapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class SecondActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        Intent intent = getIntent();
+
+        //Funziona con configureListView() in MainActivity.
+        /*String nome = intent.getStringExtra("nome");
+
+        TextView personaTextView = findViewById(R.id.personaTextView);
+
+        personaTextView.setText(nome);*/
+
+
+
+
+
+        //int listPositon=intent.getIntExtra(MainActivity.LIST_POSITION, 0);
+
+
+
+
+        Persona persona = intent.getParcelableExtra("persona");
+
+        String nome = persona.getNome();
+        String cognome = persona.getCognome();
+        String anni = persona.getAnni();
+
+        //String nome1 = intent.getStringExtra("Nome");
+        //String cognome1 = intent.getStringExtra("Cognome");
+
+        TextView listPositionTextView=findViewById(R.id.listPositionTextView);
+        TextView personaTextView=findViewById(R.id.personaTextView);
+
+        //listPositionTextView.setText(String.valueOf(listPositon));
+        personaTextView.setText(nome + " " + cognome + " " + anni);
+
+        Button backButton=findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
+    }
+}

@@ -4,7 +4,7 @@
         "title": "Il Nome della Rosa",
         "author": "Umberto Eco",
         "genre": "Mistero",
-        "price": 15.9,
+        "price": 16.0,
         "pages": 502
     },
     {
@@ -38,5 +38,45 @@
         "genre": "Classico",
         "price": 15.5,
         "pages": 432
+    },
+    {
+        "id": 6,
+        "title": "ddddddddd",
+        "author": "dgggggggggggggg",
+        "genre": "fantasy",
+        "price": 11.1,
+        "pages": 250
+    },
+    {
+        "id": 7,
+        "title": "dddddddddd",
+        "author": "gggggggggggggggggggggggggggggg",
+        "genre": "diocane",
+        "price": 22.3,
+        "pages": 2200
+    },
+    {
+        "id": 8,
+        "title": "dddddddddd",
+        "author": "gggggggggggggggggggggggggggggg",
+        "genre": "diocane",
+        "price": 22.3,
+        "pages": 2200
+    },
+    {
+        "id": 9,
+        "title": "aaaaa",
+        "author": "bbbbbb",
+        "genre": "cccccccc",
+        "price": 289.9,
+        "pages": 345
+    },
+    {
+        "id": 10,
+        "title": "ddd2",
+        "author": "dddddd",
+        "genre": "dddddddddd",
+        "price": 22.22,
+        "pages": 222222
     }
 ]

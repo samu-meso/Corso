@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Esercizio: Automobili</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="container py-4">
+    <h1 class="mb-4">Esercizi di programmazione Web - Flask + JS + JSON</h1>
+
+    <div>
+        <h2>Esercizio 2: Gestione Automobili</h2>
+        <p>
+            Crea un'applicazione Flask che gestisca una lista di automobili. Ogni automobile deve avere:
+            <ul>
+                <li><code>id</code> (intero)</li>
+                <li><code>marca</code> (stringa)</li>
+                <li><code>modello</code> (stringa)</li>
+                <li><code>anno</code> (intero)</li>
+                <li><code>prezzo</code> (decimale)</li>
+            </ul>
+            Implementa API REST per la gestione CRUD. Testa tutto con la sezione sottostante.
+        </p>
+
+        <!-- 🔍 Search by ID -->
+        <div class="mb-4">
+            <h4>🔍 Cerca auto per ID</h4>
+            <input type="number" id="searchId" placeholder="ID" class="form-control w-25 d-inline-block me-2">
+            <button class="btn btn-info" onclick="searchAuto()">Cerca</button>
+            <div id="searchResult" class="mt-2"></div>
+        </div>        
+
+        <h5>Aggiungi Automobile</h5>
+        <input type="text" id="autoMarca" placeholder="Marca" class="form-control mb-2">
+        <input type="text" id="autoModello" placeholder="Modello" class="form-control mb-2">
+        <input type="number" id="autoAnno" placeholder="Anno" class="form-control mb-2">
+        <input type="number" id="autoPrezzo" placeholder="Prezzo" step="0.01" class="form-control mb-2">
+        <button class="btn btn-success mb-3" onclick="addAuto()">Aggiungi</button>
+
+        <!-- 📚 Auto List -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Marca</th><th>Modello</th><th>Anno</th><th>Prezzo</th><th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="listaAuto"></tbody>
+        </table>
+    </div>
+
+<script>
+    const api = "/api/auto";
+
+    function loadAuto() {
+        $.get(api, data => {
+            let rows = data.map(b => `
+                <tr>
+                    <td>${b.id}</td>
+                    <td><input id="marca_${b.id}" value="${b.marca}" class="form-control" onchange="editField(${b.id}, 'marca', this.value)"></td>
+                    <td><input id="modello_${b.id}" value="${b.modello}" class="form-control" onchange="editField(${b.id}, 'modello', this.value)"></td>
+                    <td><input id="anno_${b.id}" type='number' value="${b.anno}" class="form-control" onchange="editField(${b.id}, 'anno', this.value)"></td>
+                    <td><input id="prezzo_${b.id}" type='number' step='0.01' value="${b.prezzo}" class="form-control" onchange="editField(${b.id}, 'prezzo', this.value)"></td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="updateAuto(${b.id})">Update</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteAuto(${b.id})">Delete</button>
+                    </td>
+                </tr>`).join("");
+            $("#listaAuto").html(rows);
+        });
+    }    
+
+    function searchAuto() {
+        const id = $("#searchId").val();
+        if (!id) return;
+
+        $.get(`${api}/${id}`, data => {
+            $("#searchResult").html(`
+                <div class="alert alert-success">
+                    <strong>Auto trovata:</strong><br>
+                    <strong>Marca:</strong> ${data.marca}<br>
+                    <strong>Modello:</strong> ${data.modello}<br>
+                    <strong>Anno:</strong> ${data.anno}<br>
+                    <strong>Prezzo:</strong> €${data.prezzo}
+                </div>
+            `);
+        }).fail(() => {
+            $("#searchResult").html(`<div class="alert alert-danger">Auto non trovata.</div>`);
+        });
+    }
+
+    function addAuto() {
+        const data = {
+            marca: $('#autoMarca').val(),
+            modello: $('#autoModello').val(),
+            anno: parseInt($('#autoAnno').val()),
+            prezzo: parseFloat($('#autoPrezzo').val())
+        };
+		  $.ajax({
+					url: api,
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(data),
+					success: function() {
+						alert("Cars added successfully");
+						loadAuto();
+					}
+				});
+			}
+
+		function deleteAuto(id) {
+			$.ajax({ url: api + "/" + id, type: 'DELETE', success: loadAuto });
+		}
+	
+	    let editBuffer = {};
+			
+        function editField(id, field, value) {
+            if (!editBuffer[id]) editBuffer[id] = {};
+            editBuffer[id][field] = value;
+
+            clearTimeout(editBuffer[id]._timer);
+            editBuffer[id]._timer = setTimeout(() => {
+                $.ajax({
+                    url: `${api}/${id}`,
+                    type: "PATCH",
+                    contentType: "application/json",
+                    data: JSON.stringify(editBuffer[id]),
+                    success: () => {
+                        alert("Auto aggiornata!");
+                        loadAuto();
+                    }
+                });
+            }, 1000);
+        }
+
+        function updateAuto(id) {
+            const data = {
+                marca: $(`#marca_${id}`).val(),
+                modello: $(`#modello_${id}`).val(),
+                anno: parseInt($(`#anno_${id}`).val()),
+                prezzo: parseFloat($(`#prezzo_${id}`).val())
+            };
+
+            $.ajax({
+                url: `${api}/${id}`,
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: () => {
+                    alert("Auto aggiornata!");
+                    loadAuto();
+                }
+            });
+        }
+
+    $(function () {
+        loadAuto();
+    });
+</script>
+
+</body>
+</html>
