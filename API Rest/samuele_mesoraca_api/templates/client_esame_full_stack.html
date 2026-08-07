@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFTS - Event Management Dashboard</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* DESIGN SYSTEM */
+        :root {
+            --primary: #0055a4; /* Blue istituzionale */
+            --primary-dark: #003366;
+            --secondary: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg-main: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #cbd5e1;
+            --header-height: 180px; /* Altezza maggiorata per banner + testo */
+            --footer-height: 110px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 1. FIXED INSTITUTIONAL HEADER */
+        header {
+            background: #fff;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            height: var(--header-height);
+            left: 0;
+            padding: 10px 40px;
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .banner-img {
+            height: 100px;
+            margin-bottom: 10px;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        .legal-reference {
+            color: var(--text-muted);
+            font-size: 11px;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .header-controls {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .brand-tag {
+            color: var(--primary);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* 2. FIXED FOOTER */
+        footer {
+            background: #fff;
+            border-top: 1px solid var(--border);
+            bottom: 0;
+            display: grid;
+            font-size: 12px;
+            grid-template-columns: 1fr 1fr 1.2fr;
+            height: var(--footer-height);
+            left: 0;
+            padding: 15px 40px;
+            position: fixed;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .footer-col { display: flex; flex-direction: column; justify-content: center; }
+        .footer-title { color: var(--primary); font-weight: 700; text-transform: uppercase; }
+        .allievo-input {
+            border: none;
+            border-bottom: 1px solid var(--secondary);
+            color: var(--primary-dark);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            padding: 2px 5px;
+            width: 250px;
+        }
+
+        /* 3. SCROLLABLE DASHBOARD */
+        main {
+            height: 100vh;
+            overflow-y: auto;
+            padding-bottom: calc(var(--footer-height) + 40px);
+            padding-top: calc(var(--header-height) + 40px);
+        }
+
+        .content-container { margin: 0 auto; max-width: 1100px; width: 95%; }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+            padding: 25px;
+        }
+
+        #examText {
+		display: none; 
+		background: #f0fdf4; 
+		border: 1px solid #bbf7d0; 
+		padding: 20px; 
+		border-radius: 8px; 
+		color: #166534; 
+        }
+		
+
+    
+
+        /* DASHBOARD ELEMENTS */
+        .stats-grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); margin-bottom: 30px; }
+        .stat-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+        .stat-label { color: var(--text-muted); font-size: 12px; font-weight: 600; text-transform: uppercase; }
+        .stat-value { color: var(--primary); font-size: 26px; font-weight: 800; }
+
+        .form-grid { display: grid; gap: 15px; grid-template-columns: repeat(3, 1fr); }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        input, select, textarea { border: 1px solid var(--border); border-radius: 6px; font-family: inherit; padding: 8px 12px; font-size: 14px; }
+
+        .btn { border: none; border-radius: 6px; cursor: pointer; font-weight: 600; padding: 10px 20px; transition: 0.2s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+
+        /* TOASTS */
+        #statusToast {
+            bottom: 130px;
+            color: white;
+            display: none;
+            font-weight: 600;
+            padding: 15px 30px;
+            position: fixed;
+            right: 40px;
+            z-index: 2000;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        /* TABLE */
+        table { border-collapse: collapse; width: 100%; }
+        th { background: #f8fafc; color: var(--text-muted); font-size: 11px; font-weight: 700; padding: 12px; text-align: left; text-transform: uppercase; }
+        td { border-bottom: 1px solid var(--border); padding: 15px 12px; font-size: 14px; }
+        .badge { border-radius: 4px; font-size: 10px; font-weight: 700; padding: 4px 8px; text-transform: uppercase; }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+
+    <header>
+
+        <div class="header-controls">
+            <span class="brand-tag">IFTS SOFTWARE DEVELOPER</span>
+			<img class="banner-img" alt="Coesione Italia - FSE+ - Regione Emilia-Romagna" src="https://comune.ravenna.it/wp-content/uploads/2025/10/Loghi_CoesioneITA_UE_REP_ER-per-news.jpg">
+            <button class="btn btn-outline" onclick="$('#examText').slideToggle()">
+                <i class="fa-solid fa-file-contract"></i> Testo Verifica
+            </button>
+        </div>
+		<div class="legal-reference">
+            Rif. PA 2025-24060/RER approvata con Delibera di Giunta Regionale n. 1238 del 28/07/2025<br>
+            Co-finanziata con risorse del Fondo Sociale Europeo Plus e dalla Regione Emilia-Romagna.
+        </div>
+    </header>
+
+    <main>
+        <div class="content-container">
+            
+        <div id="examText" class="mt-3 shadow-sm">
+            <h4>Traccia d'Esame: Backend REST API - Gestione Eventi</h4>
+            <p>Sviluppare un sistema di API REST in Python (Flask) per una piattaforma di prenotazione eventi (concerti, corsi, conferenze). Requisiti dell'applicazione:</p>
+            <ul>
+                <li><strong>Modello Dati:</strong> id (PK intero), titolo (min 5 caratteri), descrizione (max 250 caratteri), categoria (whitelist), data_evento (formato YYYY-MM-DD), prezzo (decimale $\ge 0.00$), posti_disponibili (intero $\ge 0$), in_evidenza (bool).</li>
+                <li><strong>Endpoint richiesti dal client:</strong>
+                    <ul>
+                        <li><code>GET /api/events</code>: Elenco completo di tutti gli eventi a sistema.</li>
+                        <li><code>GET /api/events/search/{keyword}</code>: Cerca la parola chiave all'interno del titolo o della descrizione dell'evento.</li>
+                        <li><code>GET /api/events/stats</code>: Restituisce un JSON di riepilogo metriche per la dashboard, calcolando la somma totale dei posti ancora liberi e il prezzo medio dei biglietti attualmente a sistema (es. formato atteso: <code>{"posti_totali": 450, "prezzo_medio": 29.99}</code>).</li>
+                        <li><code>POST /api/events</code>: Creazione di un nuovo evento (ID autoincrementale gestito lato server).</li>
+                        <li><code>PATCH /api/events/{id}</code>: Modifica parziale del record (utilizzato dal client per accendere/spegnere lo stato "In Evidenza").</li>
+                        <li><code>DELETE /api/events/{id}</code>: Eliminazione definitiva di un evento.</li>
+                    </ul>
+                </li>
+                <li><strong>Business Logic e Sicurezza:</strong> Un evento non può essere eliminato se è "Sold Out" (ovvero se <code>posti_disponibili == 0</code>), per garantire lo storico dei pagamenti. In questo scenario il server deve rispondere con un codice <strong>403 Forbidden</strong>. Qualsiasi dato in ingresso non coerente (stringhe troppo corte, prezzi negativi, categorie non censite) deve restituire un <strong>400 Bad Request</strong>.</li>
+            </ul>
+            <div class="alert alert-warning mt-3 py-2 small text-dark">
+                <strong>Consegna Scritta Obbligatoria:</strong><br>
+                Testate le vostre API con Postman ed il client in dotazione. 
+				<em>Sostituire con il proprio nome e cognome i placeholder in basso a destra.</em>
+            </div>
+        </div>
+
+            <h2 style="margin-bottom: 25px; font-weight: 800;">Dashboard Gestione Eventi</h2>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Disponibilità Totale</div>
+                    <div id="statPosti" class="stat-value">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Ticket Medio</div>
+                    <div id="statPrezzo" class="stat-value">€ 0.00</div>
+                </div>
+                <div class="stat-item" style="display: flex; align-items: center;">
+                    <button class="btn btn-primary w-100" onclick="getStats()">
+                        <i class="fa-solid fa-chart-line"></i> Carica Statistiche
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; gap: 15px; margin-bottom: 30px;">
+                    <input type="text" id="querySearch" placeholder="Cerca nel titolo o descrizione..." style="flex: 1;">
+                    <button class="btn btn-outline" onclick="searchEvents()">Cerca</button>
+                    <button class="btn btn-outline" onclick="loadEvents()">Reset</button>
+                </div>
+
+                <form id="eventForm" class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Titolo (min 5)</label>
+                        <input type="text" id="title" required minlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select id="category" required>
+                            <option value="" disabled selected>Seleziona...</option>
+                            <option value="Concerti">Concerti</option>
+                            <option value="Formazione">Formazione IT</option>
+                            <option value="Mostre">Mostre & Cultura</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Prezzo (€)</label>
+                        <input type="number" id="price" min="0" step="0.01" value="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Posti Liberi</label>
+                        <input type="number" id="tickets" min="0" value="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Data Evento</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 3;">
+                        <label>Descrizione (max 250 car.)</label>
+                        <textarea id="description" maxlength="250" rows="2"></textarea>
+                    </div>
+                    <div style="grid-column: span 3; text-align: right;">
+                        <button type="submit" class="btn btn-primary px-5">PUBBLICA EVENTO</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div style="padding: 20px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border);">
+                    <h4 style="margin:0">Eventi Programmati</h4>
+                    <span id="statusCount" style="color:var(--text-muted); font-size: 12px;">0 elementi</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Dettagli Evento</th>
+                            <th>Prezzo</th>
+                            <th>Status</th>
+                            <th>Evidenza</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-col">
+            <p class="footer-title">Tecnico Sviluppo Applicazioni Informatiche</p>
+            <p>Software Developer con strumenti AI</p>
+        </div>
+        <div class="footer-col" style="text-align: center;">
+            <p><strong>MODULO:</strong> Creazione utilizzo di API</p>
+            <p><strong>DOCENTE:</strong> Salvo Finistrella</p>
+        </div>
+        <div class="footer-col" style="text-align: right;">
+            <p><strong>DATA:</strong> 21/05/2026</p>
+            <p><strong>ALLIEVO:</strong> <span class="allievo-input">Samuele Mesoraca</span></p>
+        </div>
+    </footer>
+
+    <div id="statusToast"></div>
+
+    <script>
+        const API_URL = "/api/events";
+
+        // NOTIFICHE SEMAFORICHE: VERDE (OK), ROSSO (ERRORE)
+        function showToast(status, msg) {
+            const toast = $('#statusToast');
+            let color = (status >= 200 && status < 300) ? '#10b981' : '#ef4444';
+
+            toast.css('background-color', color).html(`HTTP ${status}: ${msg}`).fadeIn();
+            setTimeout(() => toast.fadeOut(), 4000);
+        }
+
+        function loadEvents() {
+            $.ajax({
+                url: API_URL,
+                type: 'GET',
+                complete: (xhr) => {
+                    if(xhr.status === 200) renderTable(xhr.responseJSON);
+                    showToast(xhr.status, xhr.status === 200 ? "Catalogo sincronizzato" : "Errore caricamento");
+                }
+            });
+        }
+
+        function renderTable(data) {
+            let rows = '';
+            if(!data || data.length === 0) {
+                rows = `<tr><td colspan="6" style="text-align:center; color:#94a3b8; padding:30px;">Archivio vuoto.</td></tr>`;
+            } else {
+                data.forEach(ev => {
+                    const isSoldOut = ev.posti_disponibili == 0;
+                    const badge = isSoldOut ? '<span class="badge badge-danger">Sold Out</span>' : `<span class="badge badge-success">${ev.posti_disponibili} liberi</span>`;
+                    rows += `
+                        <tr style="${ev.in_evidenza ? 'background:#fffbeb;' : ''}">
+                            <td><code>#${ev.id}</code></td>
+                            <td>
+                                <strong>${ev.titolo}</strong><br>
+                                <span style="font-size:11px;">${ev.categoria} | ${ev.data_evento}</span>
+                            </td>
+                            <td>€${parseFloat(ev.prezzo).toFixed(2)}</td>
+                            <td>${badge}</td>
+                            <td><input type="checkbox" ${ev.in_evidenza ? 'checked' : ''} onchange="patchEvent(${ev.id}, this.checked)"></td>
+                            <td><button onclick="deleteEvent(${ev.id})" style="color:var(--danger); border:none; background:none; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></td>
+                        </tr>`;
+                });
+            }
+            $('#eventTable').html(rows);
+            $('#statusCount').text((data ? data.length : 0) + " elementi");
+        }
+
+        function getStats() {
+            $.ajax({
+                url: `${API_URL}/stats`,
+                type: 'GET',
+                success: (s) => {
+                    $('#statPosti').text(s.posti_totali || 0);
+                    $('#statPrezzo').text('€ ' + Number(s.prezzo_medio || 0).toFixed(2));
+                    showToast(200, "Statistiche aggiornate");
+                },
+                error: (xhr) => showToast(xhr.status, "Errore calcolo metriche")
+            });
+        }
+
+        function searchEvents() {
+            const q = $('#querySearch').val();
+            $.ajax({
+                url: `${API_URL}/search/${encodeURIComponent(q)}`,
+                type: 'GET',
+                success: (data) => renderTable(data),
+                error: (xhr) => showToast(xhr.status, "Ricerca fallita")
+            });
+        }
+
+        $('#eventForm').on('submit', function(e) {
+            e.preventDefault();
+            const payload = {
+                titolo: $('#title').val(),
+                categoria: $('#category').val(),
+                prezzo: parseFloat($('#price').val()),
+                posti_disponibili: parseInt($('#tickets').val()),
+                data_evento: $('#eventDate').val(),
+                descrizione: $('#description').val(),
+                in_evidenza: false
+            };
+
+            $.ajax({
+                url: API_URL,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(payload),
+                complete: (xhr) => {
+                    if(xhr.status === 201) { loadEvents(); this.reset(); }
+                    showToast(xhr.status, xhr.status === 201 ? "Creato" : "Bad Request");
+                }
+            });
+        });
+
+        function patchEvent(id, val) {
+            $.ajax({
+                url: `${API_URL}/${id}`,
+                type: 'PATCH',
+                contentType: 'application/json',
+                data: JSON.stringify({ in_evidenza: val }),
+                complete: (xhr) => { showToast(xhr.status, "Aggiornato"); loadEvents(); }
+            });
+        }
+
+        function deleteEvent(id) {
+            if(confirm("Eliminare evento #" + id + "?")) {
+                $.ajax({
+                    url: `${API_URL}/${id}`,
+                    type: 'DELETE',
+                    complete: (xhr) => { showToast(xhr.status, xhr.status === 204 ? "Eliminato" : "Azione negata"); loadEvents(); }
+                });
+            }
+        }
+
+        $(document).ready(loadEvents);
+    </script>
+</body>
+</html>

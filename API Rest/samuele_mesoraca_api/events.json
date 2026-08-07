@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "titolo": "tttttttttt",
+        "descrizione": "11111111",
+        "categoria": "Concerti",
+        "data_evento": "1111-11-11",
+        "prezzo": 15.0,
+        "posti_disponibili": 100,
+        "in_evidenza": false
+    },
+    {
+        "id": 2,
+        "titolo": "tttttt",
+        "descrizione": "ttttttttttttt",
+        "categoria": "Formazione",
+        "data_evento": "1111-11-11",
+        "prezzo": 15.0,
+        "posti_disponibili": 0,
+        "in_evidenza": false
+    }
+]
